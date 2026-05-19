@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/Dams168/ecommerce-platform/proto/gen/user/v1;userv1";
+
+message RegisterRequest {
+  string name     = 1;
+  string email    = 2;
+  string password = 3;
+}
+
+message RegisterResponse {
+  string user_id = 1;
+  string email   = 2;
+  string name    = 3;
+}
+
+message LoginRequest {
+  string email    = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token   = 1;
+  string user_id = 2;
+  string name    = 3;
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message GetUserResponse {
+  string user_id = 1;
+  string name    = 2;
+  string email   = 3;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message ValidateTokenResponse {
+  bool   valid   = 1;
+  string user_id = 2;
+}
+
+service UserService {
+  rpc Register      (RegisterRequest)      returns (RegisterResponse);
+  rpc Login         (LoginRequest)         returns (LoginResponse);
+  rpc GetUser       (GetUserRequest)       returns (GetUserResponse);
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
+}

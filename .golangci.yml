@@ -1,0 +1,20 @@
+linters:
+  enable:
+    - errcheck      # pastikan semua error dicek
+    - gosimple      # sederhanakan kode
+    - govet         # analisis statik Go
+    - ineffassign   # variabel assign tapi tidak dipakai
+    - staticcheck   # bug dan performance
+    - unused        # kode yang tidak dipakai
+    - gofmt         # format konsisten
+    - goimports     # import terurut
+    - misspell      # typo di komentar
+
+linters-settings:
+  gofmt:
+    simplify: true
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters: [errcheck]

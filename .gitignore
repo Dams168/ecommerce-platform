@@ -1,0 +1,23 @@
+# binaries
+bin/
+*.exe
+
+# env files — JANGAN commit .env asli
+.env
+!.env.example
+
+# Go
+vendor/
+*.test
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# proto generated — kita commit hasil generate
+# tapi kalau mau ignore: proto/gen/

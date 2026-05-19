@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package notification.v1;
+
+option go_package = "github.com/Dams168/ecommerce-platform/proto/gen/notification/v1;notificationv1";
+
+message SendNotificationRequest {
+  string user_id = 1;
+  string type    = 2;
+  string title   = 3;
+  string body    = 4;
+}
+
+message SendNotificationResponse {
+  bool success = 1;
+}
+
+service NotificationService {
+  rpc SendNotification (SendNotificationRequest) returns (SendNotificationResponse);
+}

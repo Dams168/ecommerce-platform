@@ -1,0 +1,14 @@
+go 1.22
+
+use (
+    ./api-gateway
+    ./services/user-service
+    ./services/order-service
+    ./services/notification-service
+    ./workers/payment-worker
+    ./pkg/kafka
+    ./pkg/redis
+    ./pkg/jwt
+    ./pkg/logger
+    ./proto
+)
