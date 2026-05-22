@@ -17,7 +17,7 @@ type Config struct {
 // Load Membaca semua kofigurasi dari .env
 func Load() (*Config, error) {
     cfg := &Config{
-        GRPCPort: getEnv("GRPC_PORT", "50051"),
+        GRPCPort: getEnv("USER_SERVICE_PORT", "50051"),
 
         DatabaseUrl: getEnv("DB_USER_URL", ""),
         JWTSecret:   getEnv("JWT_SECRET", ""),
