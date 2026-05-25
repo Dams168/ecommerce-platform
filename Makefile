@@ -83,3 +83,27 @@ dev-user: ## Jalankan User Service dengan hot reload
 
 dev-order: ## Jalankan Order Service dengan hot reload
 	cd services/order-service && air
+
+dev: ## Jalankan semua service sekaligus (butuh tmux)
+	@which tmux > /dev/null || (echo "Install tmux dulu: sudo apt install tmux" && exit 1)
+	@echo "$(YELLOW)→ Memulai semua service...$(RESET)"
+	tmux new-session -d -s ecommerce -x 220 -y 50
+	tmux rename-window -t ecommerce:0 'gateway'
+	tmux send-keys -t ecommerce:0 'cd $(PWD)/api-gateway && export $$(cat ../.env | grep -v "^#" | grep -v "^$$" | xargs) && go run ./cmd/main.go' Enter
+	tmux new-window -t ecommerce -n 'user-svc'
+	tmux send-keys -t ecommerce:1 'cd $(PWD)/services/user-service && export $$(cat ../../.env | grep -v "^#" | grep -v "^$$" | xargs) && go run ./cmd/main.go' Enter
+	tmux new-window -t ecommerce -n 'order-svc'
+	tmux send-keys -t ecommerce:2 'cd $(PWD)/services/order-service && export $$(cat ../../.env | grep -v "^#" | grep -v "^$$" | xargs) && go run ./cmd/main.go' Enter
+	tmux new-window -t ecommerce -n 'payment'
+	tmux send-keys -t ecommerce:3 'cd $(PWD)/workers/payment-worker && export $$(cat ../../.env | grep -v "^#" | grep -v "^$$" | xargs) && go run ./cmd/main.go' Enter
+	tmux new-window -t ecommerce -n 'notif'
+	tmux send-keys -t ecommerce:4 'cd $(PWD)/services/notification-service && export $$(cat ../../.env | grep -v "^#" | grep -v "^$$" | xargs) && go run ./cmd/main.go' Enter
+	tmux attach -t ecommerce
+	@echo "$(GREEN)✓ Semua service running$(RESET)"
+
+dev-stop: ## Hentikan semua service
+	tmux kill-session -t ecommerce 2>/dev/null || true
+	@echo "$(GREEN)✓ Semua service dihentikan$(RESET)"
+
+dev-logs: ## Attach ke tmux session yang sedang running
+	tmux attach -t ecommerce
